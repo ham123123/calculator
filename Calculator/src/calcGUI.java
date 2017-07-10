@@ -47,7 +47,7 @@ public class calcGUI implements ActionListener {
 		addButtonsOneToThree(pane);
 		addAdditionButton(pane);
 		addButtonsFourToSix(pane);
-		subtractButton(pane);
+		addSubtractButton(pane);
 		addButtonsSevenToNine(pane);
 		addMultiplicationButton(pane);
 		addZeroButton(pane);
@@ -101,7 +101,7 @@ public class calcGUI implements ActionListener {
 
 	// This method adds the subtraction button
 	
-	private void subtractButton(JPanel pane) {
+	private void addSubtractButton(JPanel pane) {
 		JButton subtract = new JButton ("-");
 		subtract.addActionListener(this);
 		pane.add(subtract);		
@@ -154,36 +154,36 @@ public class calcGUI implements ActionListener {
 			treatAsDecimel(event);
 		} else if (isAddition(event)) {        // when addition button is clicked
 			operationClicked = true;
-			treatAsAddition(event);
+			doStoredOperationIfAnyThenAdd(event);
 		} else if (isSubtraction(event)) {     // when subtraction is clicked
 			operationClicked = true;
-			treatAsSubtraction(event);
+			doStoredOperationIfAnyThenSubtract(event);
 		} else if (isDivision(event)) {        // when division is clicked
 			operationClicked = true;
-			treatAsDivision(event);
+			doStoredOperationIfAnyThenDivide(event);
 		} else if (isMultiplication(event)) {  // when multiplication is clicked
 			operationClicked = true;
-			treatAsMultiplication(event);
+			doStoredOperationIfAnyThenMultiply(event);
 		} else if (isEquation(event)) {        // when equals sign is clicked
-			findResult(event);
+			doStoredOperationAndFindResult(event);
 		}
 		
 	}
 	
 	// This method finds the result of the required equation after the user clicks equal sign
 	
-	private void findResult(ActionEvent event) {
+	private void doStoredOperationAndFindResult(ActionEvent event) {
 		String text = result.getText();
-		if (operation == 1) {                    // if equation was addition
+		if (storedOperationIsAddition()) {                    // if equation was addition
 			add(text);
 			operation = 0;
-		} else if (operation == 2) {             // if equation was subtraction
+		} else if (storedOperationIsSubtraction()) {             // if equation was subtraction
 			subtract(text);
 			operation = 0;
-		} else if (operation == 3) {             // if equation was division
+		} else if (storedOperationIsDivision()) {             // if equation was division
 			divide(text);
 			operation = 0;
-		} else if (operation == 4) {             // if equation was multiplication
+		} else if (storedOperationIsMultiplication()) {             // if equation was multiplication
 			multiply(text);
 			operation = 0;                       // reset at value of equals
 		}
@@ -194,18 +194,18 @@ public class calcGUI implements ActionListener {
 	 * equation
 	 */
 	
-	private void treatAsMultiplication(ActionEvent event) {
+	private void doStoredOperationIfAnyThenMultiply(ActionEvent event) {
 		String text = result.getText();
-		if (operation == 1) {                    // if earlier stored button was addition
+		if (storedOperationIsAddition()) {                    // if earlier stored button was addition
 			add(text);
 			operation = 4;
-		} else if (operation == 2) {             // if earlier stored button was subtraction
+		} else if (storedOperationIsSubtraction()) {             // if earlier stored button was subtraction
 			subtract(text);
 			operation = 4;
-		} else if (operation == 3) {             // if earlier stored button was division
+		} else if (storedOperationIsDivision()) {             // if earlier stored button was division
 			divide(text);
 			operation = 4;                      // reset value of multiplication to store for next button
-		} else if (operation == 0) {            // if earlier stored button was equals
+		} else if (storedOperationIsEquality()) {            // if earlier stored button was equals
 			num = 0;                            // reset values after using the equals button
 			multiply(text);
 		} else {
@@ -217,18 +217,18 @@ public class calcGUI implements ActionListener {
 	 * equation
 	 */
 	
-	private void treatAsDivision(ActionEvent event) {
+	private void doStoredOperationIfAnyThenDivide(ActionEvent event) {
 		String text = result.getText();
-		if (operation == 1) {
+		if (storedOperationIsAddition()) {
 			add(text);
 			operation = 3;
-		} else if (operation == 2) {
+		} else if (storedOperationIsSubtraction()) {
 			subtract(text);
 			operation = 3;
-		} else if (operation == 4) {               // if earlier stored button was multiplication
+		} else if (storedOperationIsMultiplication()) {               // if earlier stored button was multiplication
 			multiply(text);
 			operation = 3;
-		} else if (operation == 0) {
+		} else if (storedOperationIsEquality()) {
 			num = 0;
 			divide(text);
 		} else {                                   // if there is repetitive division
@@ -240,18 +240,18 @@ public class calcGUI implements ActionListener {
 	 * equation
 	 */
 	
-	private void treatAsSubtraction(ActionEvent event) {
+	private void doStoredOperationIfAnyThenSubtract(ActionEvent event) {
 		String text = result.getText();
-		if (operation == 1) {
+		if (storedOperationIsAddition()) {
 			add(text);
 			operation = 2;
-		} else if (operation == 3) {
+		} else if (storedOperationIsDivision()) {
 			divide(text);
 			operation = 2;
-		} else if (operation == 4) {
+		} else if (storedOperationIsMultiplication()) {
 			multiply(text);
 			operation = 2;
-		} else if (operation == 0) {
+		} else if (storedOperationIsEquality()) {
 			num = 0;
 			subtract(text);
 		} else {                                      // if there is repetitive subtraction
@@ -263,18 +263,18 @@ public class calcGUI implements ActionListener {
 	 * equation
 	 */
 	
-	private void treatAsAddition(ActionEvent event) {
+	private void doStoredOperationIfAnyThenAdd(ActionEvent event) {
 		String text = result.getText();
-		if (operation == 2) {
+		if (storedOperationIsSubtraction()) {
 			subtract(text);
 			operation = 1;
-		} else if (operation == 3) {
+		} else if (storedOperationIsDivision()) {
 			divide(text);
 			operation = 1;
-		} else if (operation == 4) {
+		} else if (storedOperationIsMultiplication()) {
 			multiply(text);
 			operation = 1;
-		} else if (operation == 0) {
+		} else if (storedOperationIsEquality()) {
 			num = 0;
 			add(text);
 		} else {                                    // if there is repetitive addition
@@ -413,6 +413,34 @@ public class calcGUI implements ActionListener {
 				  !ev.getActionCommand().contains("/") &&
 				   !ev.getActionCommand().contains("=");
 	}
-	
 
+	// This method returns whether the operation is an equality, presented by the value of 0
+
+	private boolean storedOperationIsEquality() {
+		return operation == 0;
+	}
+
+	// This method returns whether the operation is multiplication, presented by the value of 4
+
+	private boolean storedOperationIsMultiplication() {
+		return operation == 4;
+	}
+
+	// This method returns whether the operation is division, presented by the value of 3
+
+	private boolean storedOperationIsDivision() {
+		return operation == 3;
+	}
+
+	// This method returns whether the operation is subtraction, presented by the value of 2
+
+	private boolean storedOperationIsSubtraction() {
+		return operation == 2;
+	}
+
+	// This method returns whether the operation is addition, presented by the value of 1
+
+	private boolean storedOperationIsAddition() {
+		return operation == 1;
+	}
 }
