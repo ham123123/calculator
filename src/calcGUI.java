@@ -19,7 +19,7 @@ public class calcGUI implements ActionListener {
 	private boolean operationClicked;       // private field to show if operand was clicked
 	private double num;                     // private field to hold initial number
 	private int operation;     // private field to assign values to different operands(= 0 + 1 - 2 / 3 x 4)
-
+	
 	public static void main (String[] args) {
 		new calcGUI().init();
 	}
@@ -30,7 +30,7 @@ public class calcGUI implements ActionListener {
 	 */
 	
 	public void init() {
-		num = 0;
+		num = 0.0;
 		operation = 0;
 		JFrame frame = new JFrame ("Calculator");
 		frame.setSize(250, 400);
@@ -85,21 +85,21 @@ public class calcGUI implements ActionListener {
 		if (isNumber(event)) {                 // when number is clicked
 			treatAsNumber(event);
 		} else if (isDecimal(event)) {         // when decimal point is clicked
-			treatAsDecimel(event);
+			treatAsDecimel();
 		} else if (isAddition(event)) {        // when addition button is clicked
 			operationClicked = true;
-			doStoredOperationIfAnyThenAdd(event);
+			doStoredOperationIfAnyThenAdd();
 		} else if (isSubtraction(event)) {     // when subtraction is clicked
 			operationClicked = true;
-			doStoredOperationIfAnyThenSubtract(event);
+			doStoredOperationIfAnyThenSubtract();
 		} else if (isDivision(event)) {        // when division is clicked
 			operationClicked = true;
-			doStoredOperationIfAnyThenDivide(event);
+			doStoredOperationIfAnyThenDivide();
 		} else if (isMultiplication(event)) {  // when multiplication is clicked
 			operationClicked = true;
-			doStoredOperationIfAnyThenMultiply(event);
+			doStoredOperationIfAnyThenMultiply();
 		} else if (isEquation(event)) {        // when equals sign is clicked
-			doStoredOperationAndFindResult(event);
+			doStoredOperationAndFindResult();
 		} else if (isClear(event)) {
 			clearResultToStartNewCalculation();
 		}
@@ -120,7 +120,7 @@ public class calcGUI implements ActionListener {
 	 * equation after the user clicks equal sign
 	 */
 	
-	private void doStoredOperationAndFindResult(ActionEvent event) {
+	private void doStoredOperationAndFindResult() {
 		String text = result.getText();
 		if (storedOperationIsAddition()) {                    // if equation was addition
 			add(text);
@@ -142,7 +142,7 @@ public class calcGUI implements ActionListener {
 	 * then stores a new multiplication equation
 	 */
 	
-	private void doStoredOperationIfAnyThenMultiply(ActionEvent event) {
+	private void doStoredOperationIfAnyThenMultiply() {
 		String text = result.getText();
 		if (storedOperationIsAddition()) {                    // if earlier stored button was addition
 			add(text);
@@ -165,7 +165,7 @@ public class calcGUI implements ActionListener {
 	 * then stores a new division equation
 	 */
 	
-	private void doStoredOperationIfAnyThenDivide(ActionEvent event) {
+	private void doStoredOperationIfAnyThenDivide() {
 		String text = result.getText();
 		if (storedOperationIsAddition()) {
 			add(text);
@@ -188,7 +188,7 @@ public class calcGUI implements ActionListener {
 	 * then stores a new subtraction equation
 	 */
 	
-	private void doStoredOperationIfAnyThenSubtract(ActionEvent event) {
+	private void doStoredOperationIfAnyThenSubtract() {
 		String text = result.getText();
 		if (storedOperationIsAddition()) {
 			add(text);
@@ -211,7 +211,7 @@ public class calcGUI implements ActionListener {
 	 * then stores a new addition equation
 	 */
 	
-	private void doStoredOperationIfAnyThenAdd(ActionEvent event) {
+	private void doStoredOperationIfAnyThenAdd() {
 		String text = result.getText();
 		if (storedOperationIsSubtraction()) {
 			subtract(text);
@@ -232,10 +232,12 @@ public class calcGUI implements ActionListener {
 
 	//This method adds the decimal to the text field to form a decimal number
 	
-	private void treatAsDecimel(ActionEvent event) {
+	private void treatAsDecimel() {
 		String text = result.getText();
-		text += ".";
-		result.setText(text);
+		if (!text.contains(".")) {
+			text += ".";
+			result.setText(text);
+		}
 	}
 
 	/* This method puts the number clicked in the text 
@@ -263,9 +265,9 @@ public class calcGUI implements ActionListener {
 	 */
 	
 	private void multiply(String text) {
-		if (num == 0.0) {                                 // to store the first number
+		if (num == 0) {                                 // to store the first number
 			num = Double.parseDouble(text);
-		} else if (num != 0.0) {                          // to store second number and multiply
+		} else if (num != 0) {                          // to store second number and multiply
 			double newNum = Double.parseDouble(text);
 			num = num * newNum;
 			result.setText("" + num);
@@ -278,9 +280,9 @@ public class calcGUI implements ActionListener {
 	 */
 	
 	private void divide(String text) {
-		if (num == 0.0) {
+		if (num == 0) {
 			num = Double.parseDouble(text);
-		} else if (num != 0.0) {                          // to store second number and multiply
+		} else if (num != 0) {                          // to store second number and multiply
 			double newNum = Double.parseDouble(text);
 			num = num / newNum;
 			result.setText("" + num);
@@ -293,9 +295,9 @@ public class calcGUI implements ActionListener {
 	 */
 	
 	private void add(String text) {
-		if (num == 0.0) {
+		if (num == 0) {
 			num = Double.parseDouble(text);
-		} else if (num != 0.0) {                         // to store second number and add
+		} else if (num != 0) {                         // to store second number and add
 			double newNum = Double.parseDouble(text);
 			num = num + newNum;
 			result.setText("" + num);
@@ -308,9 +310,9 @@ public class calcGUI implements ActionListener {
 	 */
 	
 	private void subtract(String text) {
-		if (num == 0.0) {
+		if (num == 0) {
 			num = Double.parseDouble(text);
-		} else if (num != 0.0) {                         // to store second number and subtract
+		} else if (num != 0) {                         // to store second number and subtract
 			double newNum = Double.parseDouble(text);
 			num = num - newNum;
 			result.setText("" + num);
@@ -368,7 +370,8 @@ public class calcGUI implements ActionListener {
 				 !ev.getActionCommand().contains("x") &&
 				  !ev.getActionCommand().contains("/") &&
 				   !ev.getActionCommand().contains("=") &&
-				    !ev.getActionCommand().contains("Clear");
+				    !ev.getActionCommand().contains("Clear") &&
+				     !ev.getActionCommand().contains(".");
 	}
 
 	// This method returns whether the operation is an equality, presented by the value of 0
