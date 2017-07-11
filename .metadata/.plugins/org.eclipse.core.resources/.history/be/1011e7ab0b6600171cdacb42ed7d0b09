@@ -24,8 +24,7 @@ public class calcGUI implements ActionListener {
 		new calcGUI().init();
 	}
 	
-	/* This method initiates the GUI, it includes creating 
-	 * the JFrame of the GUI, adding the text field
+	/* This method initiates the GUI, it includes creating the JFrame of the GUI, adding the text field
 	 * and the buttons, and placing them.
 	 */
 	
@@ -34,23 +33,14 @@ public class calcGUI implements ActionListener {
 		operation = 0;
 		JFrame frame = new JFrame ("Calculator");
 		frame.setSize(250, 400);
+		result = new JTextField(16);
 		JPanel pane = new JPanel (new GridLayout(4, 4));
-		addClearFieldAndResultButton(frame);
 		addButtons(pane);
 		frame.add(pane, "Center");
+		frame.add(result, "North");
 		frame.setVisible(true);
 	}
 	
-	// This method adds all the result text field and the clear button
-	
-	private void addClearFieldAndResultButton(JFrame frame) {
-		result = new JTextField(16);
-		frame.add(result, "North");
-		JButton clear = new JButton ("Clear");
-		clear.addActionListener(this);
-		frame.add(clear,"South");
-	}
-
 	// This method adds all the buttons found on the calculator
 	
 	private void addButtons(JPanel pane) {
@@ -155,9 +145,7 @@ public class calcGUI implements ActionListener {
 		}
 	}
 
-	/* This method waits and responds to an 
-	 * action to be performed (a button to be pressed)
-	 */
+	// This method waits and responds to an action to be performed (a button to be pressed)
 	
 	public void actionPerformed(ActionEvent event) {
 		if (isNumber(event)) {                 // when number is clicked
@@ -178,25 +166,11 @@ public class calcGUI implements ActionListener {
 			doStoredOperationIfAnyThenMultiply(event);
 		} else if (isEquation(event)) {        // when equals sign is clicked
 			doStoredOperationAndFindResult(event);
-		} else if (isClear(event)) {
-			clearResultToStartNewCalculation();
 		}
 		
 	}
-
-	/* This method clears the result field and allows 
-	 * the user to start a new calculation after clicking clear
-	 */
-
-	private void clearResultToStartNewCalculation() {
-		result.setText("");
-		operation = 0;                                         // reset at value of equals
-		operationClicked = true;
-	}
-
-	/* This method finds the result of the required 
-	 * equation after the user clicks equal sign
-	 */
+	
+	// This method finds the result of the required equation after the user clicks equal sign
 	
 	private void doStoredOperationAndFindResult(ActionEvent event) {
 		String text = result.getText();
@@ -216,8 +190,8 @@ public class calcGUI implements ActionListener {
 		operationClicked = true;
 	}
 
-	/* This method performs the earlier stored equation, 
-	 * then stores a new multiplication equation
+	/* This method performs the earlier stored equation, then stores a new multiplication
+	 * equation
 	 */
 	
 	private void doStoredOperationIfAnyThenMultiply(ActionEvent event) {
@@ -239,8 +213,8 @@ public class calcGUI implements ActionListener {
 		}
 	}
 
-	/* This method performs the earlier stored equation, 
-	 * then stores a new division equation
+	/* This method performs the earlier stored equation, then stores a new division
+	 * equation
 	 */
 	
 	private void doStoredOperationIfAnyThenDivide(ActionEvent event) {
@@ -262,8 +236,8 @@ public class calcGUI implements ActionListener {
 		}
 	}
 
-	/* This method performs the earlier stored equation, 
-	 * then stores a new subtraction equation
+	/* This method performs the earlier stored equation, then stores a new subtraction
+	 * equation
 	 */
 	
 	private void doStoredOperationIfAnyThenSubtract(ActionEvent event) {
@@ -285,8 +259,8 @@ public class calcGUI implements ActionListener {
 		}
 	}
 
-	/* This method performs the earlier stored equation, 
-	 * then stores a new addition equation
+	/* This method performs the earlier stored equation, then stores a new addition
+	 * equation
 	 */
 	
 	private void doStoredOperationIfAnyThenAdd(ActionEvent event) {
@@ -316,12 +290,10 @@ public class calcGUI implements ActionListener {
 		result.setText(text);
 	}
 
-	/* This method puts the number clicked in the text 
-	 * field depending on whether an operand was clicked. If an 
-	 * operand was clicked, the number clicked removes the numbers 
-	 * that were in the field and is placed instead of them. 
-	 * If the operand is not clicked, the number is only added 
-	 * to the already present sequence of numbers.
+	/*This method puts the number clicked in the text field depending on whether
+	 * an operand was clicked. If an operand was clicked, the number clicked removes
+	 * the numbers that were in the field and is placed instead of them. If the operand
+	 * is not clicked, the number is only added to the already present sequence of numbers.
 	 */
 	
 	private void treatAsNumber(ActionEvent event) {
@@ -336,8 +308,8 @@ public class calcGUI implements ActionListener {
 		}		
 	}
 
-	/* This method multiplies two consecutively inserted 
-	 * numbers after the multiplication button is clicked
+	/* This method multiplies two consecutively inserted numbers after the multiplication
+	 * button is clicked
 	 */
 	
 	private void multiply(String text) {
@@ -351,8 +323,8 @@ public class calcGUI implements ActionListener {
 		operation = 4;                         // storing given multiplication value to perform function at next button
 	}
 
-	/* This method divides two consecutively inserted numbers 
-	 * after the division button is clicked
+	/* This method divides two consecutively inserted numbers after the division
+	 * button is clicked
 	 */
 	
 	private void divide(String text) {
@@ -431,12 +403,6 @@ public class calcGUI implements ActionListener {
 	private boolean isEquation(ActionEvent ev) {
 		return ev.getActionCommand().contains("=");
 	}
-	
-	// This method returns whether a button is the clear button
-
-	private boolean isClear(ActionEvent ev) {
-		return ev.getActionCommand().contains("Clear");
-	}
 
 	// This method returns whether a button is a number button
 	
@@ -445,8 +411,7 @@ public class calcGUI implements ActionListener {
 				!ev.getActionCommand().contains("-") &&
 				 !ev.getActionCommand().contains("x") &&
 				  !ev.getActionCommand().contains("/") &&
-				   !ev.getActionCommand().contains("=") &&
-				    !ev.getActionCommand().contains("Clear");
+				   !ev.getActionCommand().contains("=");
 	}
 
 	// This method returns whether the operation is an equality, presented by the value of 0
