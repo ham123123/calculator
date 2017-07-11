@@ -19,7 +19,7 @@ public class calcGUI implements ActionListener {
 	private boolean operationClicked;       // private field to show if operand was clicked
 	private double num;                     // private field to hold initial number
 	private int operation;     // private field to assign values to different operands(= 0 + 1 - 2 / 3 x 4)
-	
+
 	public static void main (String[] args) {
 		new calcGUI().init();
 	}
@@ -54,111 +54,33 @@ public class calcGUI implements ActionListener {
 	// This method adds all the buttons found on the calculator
 	
 	private void addButtons(JPanel pane) {
-		addButtonsOneToThree(pane);
-		addAdditionButton(pane);
-		addButtonsFourToSix(pane);
-		addSubtractButton(pane);
-		addButtonsSevenToNine(pane);
-		addMultiplicationButton(pane);
-		addZeroButton(pane);
-		addDecimelButton(pane);
-		addEqualsButton(pane);
-		addDivideButton(pane);		
+		addNumberButtons(pane, 1, 3);
+		addButton(pane,  "+");
+		addNumberButtons(pane, 4, 7);
+		addButton(pane,  "-");
+		addNumberButtons(pane, 7, 10);
+		addButton(pane,  "x");
+		addButton(pane,  "0");
+		addButton(pane, ".");
+		addButton(pane,  "=");
+		addButton(pane,  "/");
 	}
 
-	// This method adds the division button
-	
-	private void addDivideButton(JPanel pane){
-		JButton divide = new JButton ("/");
-		divide.addActionListener(this);
-		pane.add(divide);		
+	private void addNumberButtons(JPanel pane, int startIndex, int endIndex) {
+		for (int i = startIndex; i < endIndex; i ++)
+			addButton(pane,  ""+i);
 	}
 
-	// This method adds the equals buttons
-	
-	private void addEqualsButton(JPanel pane) {
-		JButton equals = new JButton ("=");
-		equals.addActionListener(this);
-		pane.add(equals);
-		
-	}
-
-	// This method adds the decimal button 
-	
-	private void addDecimelButton(JPanel pane) {
-		JButton decimal = new JButton (".");
-		decimal.addActionListener(this);
-		pane.add(decimal);
-		
-	}
-
-	// This method adds the 0 button
-	
-	private void addZeroButton(JPanel pane) {
-		JButton button = new JButton ("0");
-		button.addActionListener(this);
-		pane.add(button);		
-	}
-
-	// This method adds the multiplication button
-	
-	private void addMultiplicationButton(JPanel pane) {
-		JButton multiply = new JButton ("x");
-		multiply.addActionListener(this);
-		pane.add(multiply);
-		
-	}
-
-	// This method adds the subtraction button
-	
-	private void addSubtractButton(JPanel pane) {
-		JButton subtract = new JButton ("-");
-		subtract.addActionListener(this);
-		pane.add(subtract);		
-	}
-
-	// This method adds the addition button
-	
-	private void addAdditionButton(JPanel pane) {
-		JButton add = new JButton ("+");
-		add.addActionListener(this);
-		pane.add(add);		
-	}
-
-	// This method adds the 7 to 9 buttons
-	
-	private void addButtonsSevenToNine(JPanel pane) {
-		for (int i = 7; i < 10; i ++) {
-			JButton button = new JButton ("" + i);
-			button.addActionListener(this);
-			pane.add(button);
-		}		
-	}
-
-	// This method adds the 4 t0 6 buttons 
-	
-	private void addButtonsFourToSix(JPanel pane) {
-		for (int i = 4; i < 7; i ++) {
-			JButton button = new JButton ("" + i);
-			button.addActionListener(this);
-			pane.add(button);
-		}		
-	}
-
-	// This method adds the 1 - 3 buttons
-	
-	public void addButtonsOneToThree(JPanel pane) {
-		for (int i = 1; i < 4; i ++) {
-			JButton button = new JButton ("" + i);
-			button.addActionListener(this);
-			pane.add(button);
-		}
-	}
-
-	/* This method waits and responds to an 
+	/* This method waits and responds to an
 	 * action to be performed (a button to be pressed)
 	 */
-	
+
+	private void addButton(JPanel pane, String label) {
+		JButton button = new JButton (label);
+		button.addActionListener(this);
+		pane.add(button);
+	}
+
 	public void actionPerformed(ActionEvent event) {
 		if (isNumber(event)) {                 // when number is clicked
 			treatAsNumber(event);
